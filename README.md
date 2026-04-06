@@ -133,16 +133,16 @@ git push -u origin main
 ## Custom Project
 
 ### Dataset
-(Describe the dataset you used.)
+- I tried to use a climate dataset from Kaggle.
 
 ### Signals
-(Describe the signals used and/or created)
+- I used mean daily temperature as a signal.
 
 ### Experiments
-(Describe your modification experiments)
+- I modified (phase 4) the window from 3 to 6 but in phase 5 changed it 5.
 
 ### Results
-(Describe the results you observed)
+- My code didn't work, unfortunately and I wasn't given errors to tell me why.
 
 ### Interpretation
-(Describe what this means for your system - provide the business intelligence you gained)
+- I can see how useful this is for seeing how the mean changes over time.
