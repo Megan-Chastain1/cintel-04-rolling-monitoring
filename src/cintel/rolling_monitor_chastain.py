@@ -1,7 +1,7 @@
 """
-rolling_monitor_case.py - Project script (example).
+rolling_monitor_chastain.py - Project script (example).
 
-Author: Denise Case
+Author: Megan Chastain
 Date: 2026-03
 
 Time-Series System Metrics Data
@@ -62,10 +62,8 @@ ROOT_DIR: Final[Path] = Path.cwd()
 DATA_DIR: Final[Path] = ROOT_DIR / "data"
 ARTIFACTS_DIR: Final[Path] = ROOT_DIR / "artifacts"
 
-DATA_FILE: Final[Path] = DATA_DIR / "system_metrics_timeseries_case.csv"
-OUTPUT_FILE: Final[Path] = ARTIFACTS_DIR / "rolling_metrics_chastain1.csv"
-
-# === DEFINE THE MAIN FUNCTION ===
+DATA_FILE: Final[Path] = DATA_DIR / "DailyDelhiClimateTest.csv"
+OUTPUT_FILE: Final[Path] = ARTIFACTS_DIR / "climate_metrics_chastain.csv"
 
 
 def main() -> None:
@@ -115,32 +113,14 @@ def main() -> None:
     # row 3 → mean of rows [1,2,3]
     # row 4 → mean of rows [2,3,4]
 
-    WINDOW_SIZE: int = 6
+    WINDOW_SIZE: int = 5
 
     # ----------------------------------------------------
     # STEP 3.1: DEFINE ROLLING MEAN FOR # OF REQUESTS
     # ----------------------------------------------------
-    # The `requests` column holds the count of requests handled at each timestamp.
-    requests_rolling_mean_recipe: pl.Expr = (
-        pl.col("requests").rolling_mean(WINDOW_SIZE).alias("requests_rolling_mean")
-    )
-
-    # ----------------------------------------------------
-    # STEP 3.2: DEFINE ROLLING MEAN FOR # OF ERRORS
-    # ----------------------------------------------------
-    # The `errors` column holds the count of errors encountered at each timestamp.
-    errors_rolling_mean_recipe: pl.Expr = (
-        pl.col("errors").rolling_mean(WINDOW_SIZE).alias("errors_rolling_mean")
-    )
-
-    # ----------------------------------------------------
-    # STEP 3.3: DEFINE ROLLING MEAN FOR LATENCY
-    # ----------------------------------------------------
-    # The `total_latency_ms` column holds the total latency in milliseconds at each timestamp.
-    latency_rolling_mean_recipe: pl.Expr = (
-        pl.col("total_latency_ms")
-        .rolling_mean(WINDOW_SIZE)
-        .alias("latency_rolling_mean")
+    # The `meantemp` column holds the mean temperature at each timestamp.
+    meantemp_rolling_mean_recipe: pl.Expr = (
+        pl.col("meantemp").rolling_mean(WINDOW_SIZE).alias("meantemp_rolling_mean")
     )
 
     # ----------------------------------------------------
@@ -149,9 +129,7 @@ def main() -> None:
     # with_columns() evaluates the recipes and adds the new columns
     df_with_rolling = df.with_columns(
         [
-            requests_rolling_mean_recipe,
-            errors_rolling_mean_recipe,
-            latency_rolling_mean_recipe,
+            meantemp_rolling_mean_recipe,
         ]
     )
 
@@ -167,9 +145,3 @@ def main() -> None:
     LOG.info("Pipeline executed successfully!")
     LOG.info("========================")
     LOG.info("END main()")
-
-
-# === CONDITIONAL EXECUTION GUARD ===
-
-if __name__ == "__main__":
-    main()
